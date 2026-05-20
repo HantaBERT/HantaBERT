@@ -33,3 +33,11 @@ saved_model/**/* filter=lfs diff=lfs merge=lfs -text
 *.zip filter=lfs diff=lfs merge=lfs -text
 *.zst filter=lfs diff=lfs merge=lfs -text
 *tfevents* filter=lfs diff=lfs merge=lfs -text
+output/train.csv filter=lfs diff=lfs merge=lfs -text
+output/cm_host.png filter=lfs diff=lfs merge=lfs -text
+output/cm_species.png filter=lfs diff=lfs merge=lfs -text
+output/training_curves.png filter=lfs diff=lfs merge=lfs -text
+output/umap_all_species.png filter=lfs diff=lfs merge=lfs -text
+output/umap_Orthohantavirus_puumalaense.png filter=lfs diff=lfs merge=lfs -text
+output/umap_Orthohantavirus_seoulense.png filter=lfs diff=lfs merge=lfs -text
+output/cm_geo.png filter=lfs diff=lfs merge=lfs -text

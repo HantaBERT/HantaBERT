@@ -1,0 +1,41 @@
+{
+  "species": [
+    "Altai virus",
+    "Anjozorobe virus",
+    "Araraquara virus",
+    "Artybash virus",
+    "Bruges virus",
+    "Camp Ripley virus",
+    "Gou virus",
+    "Hantavirus MAYOV",
+    "Jemez Springs virus",
+    "Juquitiba virus",
+    "Orthohantavirus andesense",
+    "Orthohantavirus chocloense",
+    "Orthohantavirus dobravaense",
+    "Orthohantavirus hantanense",
+    "Orthohantavirus khabarovskense",
+    "Orthohantavirus montanoense",
+    "Orthohantavirus puumalaense",
+    "Orthohantavirus seoulense",
+    "Orthohantavirus sinnombreense",
+    "Orthohantavirus tulaense",
+    "Other",
+    "Ozark orthohantavirus",
+    "Seewis virus"
+  ],
+  "host": [
+    "Rodent",
+    "Human",
+    "Others"
+  ],
+  "geo": [
+    "Africa",
+    "Americas",
+    "Asia",
+    "Europe",
+    "Oceania",
+    "Other",
+    "Unknown"
+  ]
+}
