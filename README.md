@@ -1,6 +1,8 @@
 ---
 license: apache-2.0
 base_model: zhihan1996/DNABERT-2-117M
+datasets:
+  - HantaBERT/HantaBERT
 library_name: transformers
 pipeline_tag: text-classification
 tags:
@@ -90,7 +92,7 @@ HantaBERT adapts the DNABERT-2 multi-species genome foundation model to this tas
 
 ## 2. Dataset
 
-The dataset (`final_hantavirus_dataset.csv`) was assembled from NCBI GenBank hantavirus submissions and processed through a dedicated data pipeline.
+The dataset (`final_hantavirus_dataset.csv`) was assembled from NCBI GenBank hantavirus submissions and processed through a dedicated data pipeline. The preprocessed dataset splits, class weights, and label maps are hosted on Hugging Face at [HantaBERT/HantaBERT](https://huggingface.co/HantaBERT/HantaBERT).
 
 | Split | Sequences |
 |-------|-----------|
@@ -156,6 +158,10 @@ pip install -r requirements.txt
 
 ## 5. Quick Start
 
+### 5.1 Local Execution
+
+Use this snippet if you have already run `preprocess.py` and trained or downloaded the model weights to the local `output/` directory:
+
 ```python
 import json
 import torch
@@ -174,6 +180,60 @@ model = MultiTaskHantaBERT(
     n_geo=len(maps["geo"]),
 ).to(device)
 model.load_state_dict(torch.load("output/best_model.pt", map_location=device))
+model.eval()
+
+# Classify a hantavirus sequence (DNA encoding, T not U)
+sequence = "ATGAAAGACCTTCTGAAGAAATTTGAGACCAGCAAATTCAACAAGGCCCAGGCCATGATT..."
+
+enc = tokenizer(
+    sequence,
+    return_tensors="pt",
+    max_length=512,
+    padding="max_length",
+    truncation=True,
+)
+with torch.no_grad():
+    out = model(enc["input_ids"].to(device), enc["attention_mask"].to(device))
+
+id2species = {v: k for k, v in maps["species"].items()}
+id2host    = {v: k for k, v in maps["host"].items()}
+id2geo     = {v: k for k, v in maps["geo"].items()}
+
+print(f"Species  : {id2species[out['species_logits'].argmax(-1).item()]}")
+print(f"Host     : {id2host[out['host_logits'].argmax(-1).item()]}")
+print(f"Geography: {id2geo[out['geo_logits'].argmax(-1).item()]}")
+print(f"Embedding: {out['embedding'].shape}")  # [1, 768]
+```
+
+### 5.2 Loading from Hugging Face
+
+You can load the model weights and label maps directly from Hugging Face using the model/dataset repository identifier `HantaBERT/HantaBERT`:
+
+```python
+import json
+import torch
+from huggingface_hub import hf_hub_download
+from transformers import AutoTokenizer
+from model import MultiTaskHantaBERT
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Download label maps and best model weights from Hugging Face Hub
+maps_path = hf_hub_download(repo_id="HantaBERT/HantaBERT", filename="output/label_maps.json")
+weights_path = hf_hub_download(repo_id="HantaBERT/HantaBERT", filename="output/best_model.pt")
+
+# Load label maps
+with open(maps_path) as f:
+    maps = json.load(f)
+
+# Initialize model structure and load weights
+tokenizer = AutoTokenizer.from_pretrained("zhihan1996/DNABERT-2-117M", trust_remote_code=True)
+model = MultiTaskHantaBERT(
+    n_species=len(maps["species"]),
+    n_host=len(maps["host"]),
+    n_geo=len(maps["geo"]),
+).to(device)
+model.load_state_dict(torch.load(weights_path, map_location=device))
 model.eval()
 
 # Classify a hantavirus sequence (DNA encoding, T not U)
