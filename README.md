@@ -2,57 +2,57 @@
 license: apache-2.0
 base_model: zhihan1996/DNABERT-2-117M
 datasets:
-  - HantaBERT/HantaBERT
+- HantaBERT/Orthohantavirus-Genome-Atlas
 library_name: transformers
 pipeline_tag: text-classification
 tags:
-  - biology
-  - genomics
-  - virology
-  - bioinformatics
-  - dna
-  - multi-task-learning
-  - hantavirus
-  - sequence-classification
-  - feature-extraction
+- biology
+- genomics
+- virology
+- bioinformatics
+- dna
+- multi-task-learning
+- hantavirus
+- sequence-classification
+- feature-extraction
 metrics:
-  - accuracy
+- accuracy
 model-index:
-  - name: HantaBERT
-    results:
-      - task:
-          type: text-classification
-          name: Species Classification (23 classes)
-        dataset:
-          name: Hantavirus NCBI GenBank
-          type: custom
-          split: test
-        metrics:
-          - type: accuracy
-            value: 0.967
-            name: Test Accuracy
-      - task:
-          type: text-classification
-          name: Host Classification (3 classes)
-        dataset:
-          name: Hantavirus NCBI GenBank
-          type: custom
-          split: test
-        metrics:
-          - type: accuracy
-            value: 0.914
-            name: Test Accuracy
-      - task:
-          type: text-classification
-          name: Geographic Origin Classification (7 classes)
-        dataset:
-          name: Hantavirus NCBI GenBank
-          type: custom
-          split: test
-        metrics:
-          - type: accuracy
-            value: 0.805
-            name: Test Accuracy
+- name: HantaBERT
+  results:
+  - task:
+      type: text-classification
+      name: Species Classification (23 classes)
+    dataset:
+      name: Hantavirus NCBI GenBank
+      type: custom
+      split: test
+    metrics:
+    - type: accuracy
+      value: 0.967
+      name: Test Accuracy
+  - task:
+      type: text-classification
+      name: Host Classification (3 classes)
+    dataset:
+      name: Hantavirus NCBI GenBank
+      type: custom
+      split: test
+    metrics:
+    - type: accuracy
+      value: 0.914
+      name: Test Accuracy
+  - task:
+      type: text-classification
+      name: Geographic Origin Classification (7 classes)
+    dataset:
+      name: Hantavirus NCBI GenBank
+      type: custom
+      split: test
+    metrics:
+    - type: accuracy
+      value: 0.805
+      name: Test Accuracy
 ---
 
 # HantaBERT: Multi-Task Hantavirus Classification with DNABERT-2
